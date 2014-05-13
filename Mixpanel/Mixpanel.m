@@ -582,10 +582,12 @@ static Mixpanel *sharedInstance = nil;
 {
     properties = [properties copy];
     [Mixpanel assertPropertyTypes:properties];
+
+    NSMutableDictionary *tmp = [NSMutableDictionary dictionaryWithDictionary:self.superProperties];
+    [tmp addEntriesFromDictionary:properties];
+    self.superProperties = [NSDictionary dictionaryWithDictionary:tmp];
+
     dispatch_async(self.serialQueue, ^{
-        NSMutableDictionary *tmp = [NSMutableDictionary dictionaryWithDictionary:self.superProperties];
-        [tmp addEntriesFromDictionary:properties];
-        self.superProperties = [NSDictionary dictionaryWithDictionary:tmp];
         if ([Mixpanel inBackground]) {
             [self archiveProperties];
         }
