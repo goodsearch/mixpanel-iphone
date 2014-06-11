@@ -636,8 +636,8 @@ static Mixpanel *sharedInstance = nil;
 
 - (void)clearSuperProperties
 {
+    self.superProperties = @{};
     dispatch_async(self.serialQueue, ^{
-        self.superProperties = @{};
         if ([Mixpanel inBackground]) {
             [self archiveProperties];
         }
